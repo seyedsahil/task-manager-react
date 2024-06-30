@@ -3,6 +3,7 @@ import { useState } from "react";
 export default function Task({ task, onUpdateTask, onDeleteTask }) {
     const [editMode, setEditMode] = useState(false);
     const [updatedText, setUpdatedText] = useState(task.text);
+    const [error, setError] = useState('');
 
     function handleDeleteTask() {
         onDeleteTask(task);
@@ -15,6 +16,7 @@ export default function Task({ task, onUpdateTask, onDeleteTask }) {
     function handleCancelTask() {
         setEditMode(() => false);
         setUpdatedText(() => task.text);
+        setError(() => '');
     }
 
     function handleChangeUpdatedText(event) {
@@ -22,12 +24,17 @@ export default function Task({ task, onUpdateTask, onDeleteTask }) {
     }
 
     function handleUpdateTask() {
-        const taskWithUpdates = {
-            ...task,
-            text: updatedText
-        };
-        setEditMode(false);
-        onUpdateTask(taskWithUpdates);
+        if (updatedText === '') {
+            setError('Please enter task details');
+        } else {
+            const taskWithUpdates = {
+                ...task,
+                text: updatedText
+            };
+            setEditMode(() => false);
+            setError(() => '');
+            onUpdateTask(taskWithUpdates);
+        }
     }
 
     function handleMarkAsCompleted() {
@@ -35,6 +42,7 @@ export default function Task({ task, onUpdateTask, onDeleteTask }) {
             ...task,
             completed: true
         };
+        setError('');
         onUpdateTask(completedTask);
     }
 
@@ -49,7 +57,8 @@ export default function Task({ task, onUpdateTask, onDeleteTask }) {
         if (editMode) {
             return (
                 <>
-                    <input type="text" value={updatedText} onChange={handleChangeUpdatedText} />
+                    <input type="text" value={updatedText} placeholder="Enter task details" onChange={handleChangeUpdatedText} />
+                    {error !== '' && <p style={{ color: 'red' }}>{error}</p>}
                     <button onClick={handleUpdateTask}>Update</button>
                     <button onClick={handleCancelTask}>Cancel</button>
                 </>
