@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { TaskDispatchContext } from "./TasksContext";
 
-export default function Task({ task, onUpdateTask, onDeleteTask }) {
+export default function Task({ task }) {
     const [editMode, setEditMode] = useState(false);
     const [updatedText, setUpdatedText] = useState(task.text);
     const [error, setError] = useState('');
+    const dispatch = useContext(TaskDispatchContext);
 
     function handleDeleteTask() {
-        onDeleteTask(task);
+        dispatch({
+            type: 'delete_task',
+            taskToBeDeleted: task
+        });
     }
 
     function handleEditTask() {
@@ -33,7 +38,10 @@ export default function Task({ task, onUpdateTask, onDeleteTask }) {
             };
             setEditMode(() => false);
             setError(() => '');
-            onUpdateTask(taskWithUpdates);
+            dispatch({
+                type: 'update_task',
+                taskToBeUpdated: taskWithUpdates
+            });
         }
     }
 
@@ -43,7 +51,10 @@ export default function Task({ task, onUpdateTask, onDeleteTask }) {
             completed: true
         };
         setError('');
-        onUpdateTask(completedTask);
+        dispatch({
+            type: 'update_task',
+            taskToBeUpdated: completedTask
+        });
     }
 
     if (task.completed) {

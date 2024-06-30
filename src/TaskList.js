@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import Task from "./Task";
+import { TasksContext } from "./TasksContext";
 
-export default function TaskList({ tasks, onUpdateTask, onDeleteTask }) {
+export default function TaskList() {
+    const tasks = useContext(TasksContext);
+
     return (
         <div>
             <ul>
@@ -8,7 +12,7 @@ export default function TaskList({ tasks, onUpdateTask, onDeleteTask }) {
                     tasks.map(task => {
                         return (
                             <li key={task.id}>
-                                <Task task={task} onUpdateTask={onUpdateTask} onDeleteTask={onDeleteTask} />
+                                <Task task={task} />
                             </li>
                         );
                     })

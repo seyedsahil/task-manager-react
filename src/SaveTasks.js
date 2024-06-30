@@ -1,9 +1,27 @@
+import { useContext } from "react";
+import { TaskDispatchContext, TasksContext } from "./TasksContext";
 
-export default function SaveTasks({ onClearTasks, onSaveTasks }) {
+export default function SaveTasks() {
+    const dispatch = useContext(TaskDispatchContext);
+    const tasks = useContext(TasksContext);
+
+    function handleSaveTasks() {
+        dispatch({
+            type: 'save_tasks',
+            tasksToBeSaved: tasks
+        });
+    }
+
+    function handleClearTasks() {
+        dispatch({
+            type: 'clear_tasks'
+        });
+    }
+
     return (
         <div>
-            <button onClick={onSaveTasks}>Save</button>
-            <button onClick={onClearTasks}>Clear</button>
+            <button onClick={handleSaveTasks}>Save</button>
+            <button onClick={handleClearTasks}>Clear</button>
         </div>
     );
 }

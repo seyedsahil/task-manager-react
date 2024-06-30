@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { TaskDispatchContext } from "./TasksContext";
 
-export default function AddTask({ onAddTask }) {
+let nextTaskId = 1;
+
+export default function AddTask() {
     const [text, setText] = useState('');
     const [error, setError] = useState('');
+    const dispatch = useContext(TaskDispatchContext);
 
     function handleTextChange(event) {
         setText(event.target.value);
@@ -14,7 +18,12 @@ export default function AddTask({ onAddTask }) {
         } else {
             setText(() => '');
             setError(() => '');
-            onAddTask(text);
+            dispatch({
+                type: 'add_task',
+                id: nextTaskId++,
+                text: text,
+                completed: false
+            });
         }
     }
 
