@@ -1,53 +1,48 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import AddTask from "./AddTask";
 import SaveTasks from "./SaveTasks";
 import TaskList from "./TaskList";
+import { tasksReducer } from "./tasks-reducer"
 
 let nextTaskId = 1;
 
 export default function TaskApp() {
-    const [tasks, setTasks] = useState([]);
+    const [tasks, dispatch] = useReducer(tasksReducer, []);
 
     function handleAddTask(text) {
-        const updatedTasks = [
-            ...tasks,
-            {
-                id: nextTaskId++,
-                text: text,
-                completed: false
-            }
-        ];
-        setTasks(updatedTasks);
+        dispatch({
+            type: 'add_task',
+            id: nextTaskId++,
+            text: text,
+            completed: false
+        });
     }
 
     function handleDeleteTask(taskToBeDeleted) {
-        const updatedTasks = tasks.filter(task => task.id !== taskToBeDeleted.id);
-        setTasks(updatedTasks);
+        dispatch({
+            type: 'delete_task',
+            taskToBeDeleted: taskToBeDeleted
+        });
     }
 
-
-
     function handleUpdateTask(taskToBeUpdated) {
-        const updatedTasks = tasks.map(task => {
-            if (task.id === taskToBeUpdated.id) {
-                return {
-                    ...task,
-                    text: taskToBeUpdated.text,
-                    completed: taskToBeUpdated.completed
-                };
-            } else {
-                return task;
-            }
+        dispatch({
+            type: 'update_task',
+            taskToBeUpdated: taskToBeUpdated
         });
-        setTasks(updatedTasks);
     }
 
     function handleClearTasks() {
-        setTasks([]);
+        dispatch({
+            type: 'clear_tasks'
+        });
     }
 
     function handleSaveTasks() {
-        alert(JSON.stringify(tasks));
+        dispatch({
+            type: 'save_tasks',
+            tasksToBeSaved: tasks
+        });
     }
 
     return (
