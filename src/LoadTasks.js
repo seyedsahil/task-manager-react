@@ -1,9 +1,8 @@
 import { useContext } from "react";
-import { TaskDispatchContext, TasksContext } from "./TasksContext";
+import { TaskDispatchContext } from "./TasksContext";
 
 export default function LoadTasks() {
     const dispatch = useContext(TaskDispatchContext);
-    const tasks = useContext(TasksContext);
 
     function handleLoadTasks() {
         dispatch({

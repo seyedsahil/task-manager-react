@@ -27,32 +27,43 @@ export function tasksReducer(tasks, action) {
                 }
             });
         }
-        case 'clear_tasks':
+        case 'clear_tasks': {
             return [];
-        case 'save_tasks':
-            const save = JSON.stringify(action.tasksToBeSaved);
-            localStorage.setItem('task-manager-react-app-store', save);
-            alert('Saved!')
+        }
+        case 'save_tasks': {
+            const store = JSON.parse(localStorage.getItem('task-manager-react-app-store') || '{}');
+            const groupName = prompt('Enter group name');
+            if (groupName) {
+                if (store[groupName]) {
+                    alert('Group name already exists!');
+                    return action.tasksToBeSaved;
+                }
+                store[groupName] = action.tasksToBeSaved;
+                localStorage.setItem('task-manager-react-app-store', JSON.stringify(store));
+                alert(`Saved to group '${groupName}'!`);
+            }
             return action.tasksToBeSaved;
-        case 'load_tasks':
-            const load = localStorage.getItem('task-manager-react-app-store');
-            if (!load) {
-                alert('No Saves!');
-                return [];
-            } else {
-                const tasksToBeLoaded = JSON.parse(load);
-                alert('Loaded!');
-                return tasksToBeLoaded;
+        }
+        case 'load_tasks': {
+            const store = JSON.parse(localStorage.getItem('task-manager-react-app-store') || '{}');
+            const groupName = prompt('Enter group name');
+            if (groupName) {
+                if (!store[groupName]) {
+                    alert('Group name does not exist!');
+                    return [];
+                } else {
+                    const tasksToBeLoaded = store[groupName];
+                    alert(`Loaded tasks from group '${groupName}'!`);
+                    return tasksToBeLoaded;
+                }
             }
-        case 'unload_tasks':
-            const saves = localStorage.getItem('task-manager-react-app-store');
-            if (!saves) {
-                alert('No Saves!');
-                return [];
-            }
-            localStorage.removeItem('task-manager-react-app-store');
-            alert('Unloaded!');
             return [];
+        }
+        case 'unload_tasks': {
+            localStorage.removeItem('task-manager-react-app-store');
+            alert('Remove all saved groups!');
+            return [];
+        }
         default: {
             throw Error('Unknown action: ' + action.type);
         }

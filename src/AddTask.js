@@ -11,7 +11,7 @@ export default function AddTask() {
     function handleTextChange(event) {
         const value = event.target.value;
         if (value !== '') {
-            setError(() => false);
+            setError(() => '');
         }
         setText(() => value);
     }
@@ -33,7 +33,7 @@ export default function AddTask() {
 
     return (
         <>
-        {error !== '' && <div className="error-message">{error}</div>}
+        {error !== '' && <div className="alert alert-danger">{error}</div>}
         <div className="input-group mb-3">
             <input type="text" className="form-control task-input" value={text} placeholder="Enter task details" onChange={handleTextChange} />
             <div className="input-group-append">

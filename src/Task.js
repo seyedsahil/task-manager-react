@@ -65,7 +65,7 @@ export default function Task({ task }) {
         return (
             <div className="input-group mb-3">
                 <input type="checkbox" className="task-checkbox" checked="checked" disabled="disabled" />
-                <span className="task-text">{task.text}</span>
+                <input type="text" className="form-control task-input" disabled value={task.text} />
                 <div className="input-group-append">
                     <button onClick={handleDeleteTask} className="btn btn-warning task-btn">Delete</button>
                 </div>
@@ -75,7 +75,7 @@ export default function Task({ task }) {
         if (editMode) {
             return (
                 <>
-                    {error !== '' && <div className="error-message">{error}</div>}
+                    {error !== '' && <div className="alert alert-danger">{error}</div>}
                     <div className="input-group mb-3">
                         <input type="text" className="form-control task-input" value={updatedText} placeholder="Enter task details" onChange={handleChangeUpdatedText} />
                         <div className="input-group-append">
@@ -89,7 +89,7 @@ export default function Task({ task }) {
             return (
                 <div className="input-group mb-3">
                     <input type="checkbox" className="task-checkbox" checked={task.completed} onChange={handleMarkAsCompleted} />
-                    <span className="task-text">{task.text}</span>
+                    <input type="text" className="form-control task-input" disabled value={task.text} />
                     <div className="input-group-append">
                         <button onClick={handleEditTask} className="btn btn-info task-btn">Edit</button>
                         <button onClick={handleDeleteTask} className="btn btn-danger task-btn">Delete</button>
