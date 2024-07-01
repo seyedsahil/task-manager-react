@@ -11,7 +11,7 @@ export default function TaskList() {
                 {
                     tasks.map(task => {
                         return (
-                            <li key={task.id}>
+                            <li className="list-group-item task-item" key={task.id}>
                                 <Task task={task} />
                             </li>
                         );

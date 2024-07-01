@@ -25,7 +25,11 @@ export default function Task({ task }) {
     }
 
     function handleChangeUpdatedText(event) {
-        setUpdatedText(event.target.value);
+        const value = event.target.value;
+        if (value !== '') {
+            setError(() => false);
+        }
+        setUpdatedText(() => value);
     }
 
     function handleUpdateTask() {
@@ -59,29 +63,38 @@ export default function Task({ task }) {
 
     if (task.completed) {
         return (
-            <>
-                <s>{task.text}</s>
-                <button onClick={handleDeleteTask}>Delete</button>
-            </>
+            <div className="input-group mb-3">
+                <input type="checkbox" className="task-checkbox" checked="checked" disabled="disabled" />
+                <span className="task-text">{task.text}</span>
+                <div className="input-group-append">
+                    <button onClick={handleDeleteTask} className="btn btn-warning task-btn">Delete</button>
+                </div>
+            </div>
         );
     } else {
         if (editMode) {
             return (
                 <>
-                    <input type="text" value={updatedText} placeholder="Enter task details" onChange={handleChangeUpdatedText} />
-                    {error !== '' && <p style={{ color: 'red' }}>{error}</p>}
-                    <button onClick={handleUpdateTask}>Update</button>
-                    <button onClick={handleCancelTask}>Cancel</button>
+                    {error !== '' && <div className="error-message">{error}</div>}
+                    <div className="input-group mb-3">
+                        <input type="text" className="form-control task-input" value={updatedText} placeholder="Enter task details" onChange={handleChangeUpdatedText} />
+                        <div className="input-group-append">
+                            <button onClick={handleUpdateTask} className="btn btn-info task-btn">Update</button>
+                            <button onClick={handleCancelTask} className="btn btn-warning task-btn">Cancel</button>
+                        </div>
+                    </div>
                 </>
             );
         } else {
             return (
-                <>
-                    <input type="checkbox" checked={task.completed} onChange={handleMarkAsCompleted} />
-                    {task.text}
-                    <button onClick={handleEditTask}>Edit</button>
-                    <button onClick={handleDeleteTask}>Delete</button>
-                </>
+                <div className="input-group mb-3">
+                    <input type="checkbox" className="task-checkbox" checked={task.completed} onChange={handleMarkAsCompleted} />
+                    <span className="task-text">{task.text}</span>
+                    <div className="input-group-append">
+                        <button onClick={handleEditTask} className="btn btn-info task-btn">Edit</button>
+                        <button onClick={handleDeleteTask} className="btn btn-danger task-btn">Delete</button>
+                    </div>
+                </div>
             );
         }
     }

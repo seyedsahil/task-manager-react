@@ -19,9 +19,9 @@ export default function SaveTasks() {
     }
 
     return (
-        <div>
-            <button onClick={handleSaveTasks}>Save</button>
-            <button onClick={handleClearTasks}>Clear</button>
+        <div className="input-group mb-3">
+            <button onClick={handleSaveTasks} className="btn btn-success task-btn">Save</button>
+            <button onClick={handleClearTasks} className="btn btn-danger task-btn">Clear</button>
         </div>
     );
 }

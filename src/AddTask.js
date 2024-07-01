@@ -9,7 +9,11 @@ export default function AddTask() {
     const dispatch = useContext(TaskDispatchContext);
 
     function handleTextChange(event) {
-        setText(event.target.value);
+        const value = event.target.value;
+        if (value !== '') {
+            setError(() => false);
+        }
+        setText(() => value);
     }
 
     function handleAddTask() {
@@ -28,10 +32,14 @@ export default function AddTask() {
     }
 
     return (
-        <div>
-            <input type="text" value={text} placeholder="Enter task details" onChange={handleTextChange} />
-            <button onClick={handleAddTask}>Add</button>
-            {error !== '' && <p style={{ color: 'red' }}>{error}</p>}
+        <>
+        {error !== '' && <div className="error-message">{error}</div>}
+        <div className="input-group mb-3">
+            <input type="text" className="form-control task-input" value={text} placeholder="Enter task details" onChange={handleTextChange} />
+            <div className="input-group-append">
+                <button className="btn btn-info task-btn" onClick={handleAddTask}>Add</button>
+            </div>
         </div>
+        </>
     );
 }
