@@ -17,7 +17,7 @@ export default function SaveTasks() {
             type: 'clear_tasks'
         });
     }
-
+    
     return (
         <div className="input-group mb-3">
             <button onClick={handleSaveTasks} className="btn btn-success task-btn">Save</button>

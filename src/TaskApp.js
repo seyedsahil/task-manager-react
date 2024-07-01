@@ -4,6 +4,7 @@ import SaveTasks from "./SaveTasks";
 import TaskList from "./TaskList";
 import { tasksReducer } from "./tasks-reducer"
 import { TaskDispatchContext, TasksContext } from "./TasksContext";
+import LoadTasks from "./LoadTasks";
 
 export default function TaskApp() {
     const [tasks, dispatch] = useReducer(tasksReducer, []);
@@ -18,6 +19,7 @@ export default function TaskApp() {
                             <AddTask />
                             {tasks.length !== 0 && <TaskList />}
                             {tasks.length !== 0 && <SaveTasks />}
+                            {tasks.length === 0 && <LoadTasks />}
                         </TaskDispatchContext.Provider>
                     </TasksContext.Provider>
                 </div>
