@@ -36,7 +36,7 @@ export default function AddTask() {
     return (
         <>
         {error !== '' && <div className="alert alert-danger">{error}</div>}
-        <div className="input-group mb-3">
+        <div className="input-group mb-4">
             <input type="text" className="form-control task-input" ref={taskDetailsRef} value={text} placeholder="Enter task details" onChange={handleTextChange} />
             <div className="input-group-append">
                 <button className="btn btn-info task-btn" onClick={handleAddTask}>Add</button>

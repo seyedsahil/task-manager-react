@@ -19,7 +19,7 @@ export default function SaveTasks() {
     }
     
     return (
-        <div className="input-group mb-3">
+        <div className="input-group mb-1">
             <button onClick={handleSaveTasks} className="btn btn-success task-btn">Save</button>
             <button onClick={handleClearTasks} className="btn btn-danger task-btn">Clear</button>
         </div>

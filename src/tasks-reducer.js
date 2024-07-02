@@ -7,12 +7,22 @@ export function tasksReducer(tasks, action) {
                 {
                     id: action.id,
                     text: action.text,
+                    deleted: false,
                     completed: false
                 }
             ];
         }
         case 'delete_task': {
-            return tasks.filter(task => task.id !== action.taskToBeDeleted.id);
+            return tasks.map(task => {
+                if (task.id === action.taskToBeDeleted.id) {
+                    return {
+                        ...task,
+                        deleted: true
+                    };
+                } else {
+                    return task;
+                }
+            });
         }
         case 'update_task': {
             return tasks.map(task => {
@@ -44,6 +54,13 @@ export function tasksReducer(tasks, action) {
             }
             return action.tasksToBeSaved;
         }
+        case 'recover_tasks':
+            return tasks.map(task => {
+                return {
+                    ...task,
+                    deleted: false
+                }
+            })
         case 'load_tasks': {
             const store = JSON.parse(localStorage.getItem('task-manager-react-app-store') || '{}');
             const groupName = prompt('Enter group name');

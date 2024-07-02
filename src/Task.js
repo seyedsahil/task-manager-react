@@ -65,7 +65,7 @@ export default function Task({ task }) {
 
     if (task.completed) {
         return (
-            <div className="input-group mb-3">
+            <div className="input-group mb-1">
                 <input type="checkbox" className="task-checkbox" checked="checked" disabled="disabled" />
                 <input type="text" className="form-control task-input" disabled value={task.text} />
                 <div className="input-group-append">
@@ -78,7 +78,7 @@ export default function Task({ task }) {
             return (
                 <>
                     {error !== '' && <div className="alert alert-danger">{error}</div>}
-                    <div className="input-group mb-3">
+                    <div className="input-group mb-1">
                         <input type="text" className="form-control task-input"  ref={taskDetailsRef} value={updatedText} placeholder="Enter task details" onChange={handleChangeUpdatedText} />
                         <div className="input-group-append">
                             <button onClick={handleUpdateTask} className="btn btn-info task-btn">Update</button>
@@ -89,7 +89,7 @@ export default function Task({ task }) {
             );
         } else {
             return (
-                <div className="input-group mb-3">
+                <div className="input-group mb-1">
                     <input type="checkbox" className="task-checkbox" checked={task.completed} onChange={handleMarkAsCompleted} />
                     <input type="text" className="form-control task-input" disabled value={task.text} />
                     <div className="input-group-append">
