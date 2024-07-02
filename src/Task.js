@@ -1,7 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { TaskDispatchContext } from "./TasksContext";
 
 export default function Task({ task }) {
+    const taskDetailsRef = useRef(null);
     const [editMode, setEditMode] = useState(false);
     const [updatedText, setUpdatedText] = useState(task.text);
     const [error, setError] = useState('');
@@ -34,6 +35,7 @@ export default function Task({ task }) {
 
     function handleUpdateTask() {
         if (updatedText === '') {
+            taskDetailsRef.current.focus();
             setError('Please enter task details');
         } else {
             const taskWithUpdates = {
@@ -77,7 +79,7 @@ export default function Task({ task }) {
                 <>
                     {error !== '' && <div className="alert alert-danger">{error}</div>}
                     <div className="input-group mb-3">
-                        <input type="text" className="form-control task-input" value={updatedText} placeholder="Enter task details" onChange={handleChangeUpdatedText} />
+                        <input type="text" className="form-control task-input"  ref={taskDetailsRef} value={updatedText} placeholder="Enter task details" onChange={handleChangeUpdatedText} />
                         <div className="input-group-append">
                             <button onClick={handleUpdateTask} className="btn btn-info task-btn">Update</button>
                             <button onClick={handleCancelTask} className="btn btn-warning task-btn">Cancel</button>

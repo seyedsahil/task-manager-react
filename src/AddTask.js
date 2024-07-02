@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { TaskDispatchContext } from "./TasksContext";
 
 let nextTaskId = 1;
 
 export default function AddTask() {
+    const taskDetailsRef = useRef(null);
     const [text, setText] = useState('');
     const [error, setError] = useState('');
     const dispatch = useContext(TaskDispatchContext);
@@ -18,6 +19,7 @@ export default function AddTask() {
 
     function handleAddTask() {
         if (text === '') {
+            taskDetailsRef.current.focus();
             setError('Please enter task details');
         } else {
             setText(() => '');
@@ -35,7 +37,7 @@ export default function AddTask() {
         <>
         {error !== '' && <div className="alert alert-danger">{error}</div>}
         <div className="input-group mb-3">
-            <input type="text" className="form-control task-input" value={text} placeholder="Enter task details" onChange={handleTextChange} />
+            <input type="text" className="form-control task-input" ref={taskDetailsRef} value={text} placeholder="Enter task details" onChange={handleTextChange} />
             <div className="input-group-append">
                 <button className="btn btn-info task-btn" onClick={handleAddTask}>Add</button>
             </div>
